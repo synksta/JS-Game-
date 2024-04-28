@@ -1,0 +1,14 @@
+{
+	"name": "JS-Game-",
+	"version": "1.0.0",
+	"main": "index.js",
+	"repository": "https://github.com/synksta/JS-Game-",
+	"author": "synksta <contriturbamentum@gmail.com>",
+	"license": "MIT",
+	"dependencies": {
+		"tailwindcss": "^3.4.3"
+	},
+	"scripts": {
+		"build": "tailwindcss build -i ./css/tailwind/input.css -o ./css/tailwind/output.css --watch"
+	}
+}
