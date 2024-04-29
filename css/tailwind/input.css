@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+	color-scheme: dark;
+}
+.text-unselectable {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+body {
+	@apply bg-black;
+}
+.allCenterWrapper {
+	@apply z-0 flex items-center justify-center w-screen h-screen;
+}
+#gameCanvas {
+	@apply border-8 rounded-lg p-gray-800 border-stone-400;
+}
