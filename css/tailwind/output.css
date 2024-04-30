@@ -2432,7 +2432,6 @@ body {
 }
 
 #gameCanvas {
-  margin: 1rem;
   border-radius: 0.5rem;
   border-width: 8px;
   --tw-border-opacity: 1;
