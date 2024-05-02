@@ -210,10 +210,9 @@ class Tetromino {
 				this.currentCoordinates.y + 1
 			)
 		} else {
-			//delete completed rows and shift every other row
 			let deletionStartRow
 			let shift = 0
-
+			// delete completed rows
 			for (let y = SETTINGS.GB_FIELD_HEIGHT - 1; y >= 0; y--) {
 				let completed = true
 				for (let x = 0; x < SETTINGS.GB_FIELD_WIDTH && completed; x++) {
@@ -229,7 +228,7 @@ class Tetromino {
 					}
 				}
 			}
-
+			// and shift every other row
 			if (typeof deletionStartRow != 'undefined' && shift > 0) {
 				for (let y = deletionStartRow - 1; y >= 0; y--) {
 					for (let x = 0; x < SETTINGS.GB_FIELD_WIDTH; x++) {
@@ -238,7 +237,7 @@ class Tetromino {
 					}
 				}
 			}
-
+			// initialize new playable tetromino
 			this.game.currentTetromino = new Tetromino(this.game)
 		}
 		// console.log(this.currentCoordinates)
@@ -393,8 +392,14 @@ function init() {
 	canvas = document.getElementById('gameCanvas')
 	context = canvas.getContext('2d')
 
-	canvas.width = SETTINGS.C_WIDTH
-	canvas.height = SETTINGS.C_HEIGHT
+	canvas.width = Math.floor(
+		SETTINGS.C_WIDTH -
+			(SETTINGS.C_WIDTH % (SETTINGS.C_PIXEL_SIDE + SETTINGS.C_PIXEL_GAP))
+	)
+	canvas.height = Math.floor(
+		SETTINGS.C_HEIGHT -
+			(SETTINGS.C_HEIGHT % (SETTINGS.C_PIXEL_SIDE + SETTINGS.C_PIXEL_GAP))
+	)
 
 	game = new Game(
 		SETTINGS.C_WIDTH,

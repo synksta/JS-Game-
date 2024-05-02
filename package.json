@@ -6,7 +6,8 @@
 	"author": "synksta <contriturbamentum@gmail.com>",
 	"license": "MIT",
 	"dependencies": {
-		"tailwindcss": "^3.4.3"
+		"tailwindcss": "^3.4.3",
+		"yarn": "^1.22.22"
 	},
 	"scripts": {
 		"build": "tailwindcss build -i ./css/tailwind/input.css -o ./css/tailwind/output.css --watch"

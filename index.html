@@ -8,8 +8,17 @@
 	</head>
 	<body>
 		<div class="allCenterWrapper">
-			<div class="w-full bg-slate-300">
-				<canvas id="gameCanvas"></canvas>
+			<div class="flex flex-col">
+				<div class="flex flex-row justify-center">
+					<div
+						class="flex flex-row justify-center h-12 text-center rounded-t-lg w-52 bg-slate-300"
+					>
+						<p class="w-4/5 my-auto bg-gray-800 rounded-lg h-min">1200</p>
+					</div>
+				</div>
+				<div class="p-5 rounded-lg bg-slate-300">
+					<canvas id="gameCanvas" class="bg-gray-800 rounded-lg"></canvas>
+				</div>
 			</div>
 		</div>
 		<script src="./js/script.js"></script>

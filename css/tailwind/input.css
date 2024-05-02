@@ -19,6 +19,6 @@ body {
 .allCenterWrapper {
 	@apply z-0 flex items-center justify-center w-screen h-screen;
 }
-#gameCanvas {
+/* #gameCanvas {
 	@apply bg-gray-800 border-8 rounded-lg border-stone-400;
-}
+} */
