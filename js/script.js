@@ -230,12 +230,17 @@ class Tetromino {
 			}
 			// and shift every other row
 			if (typeof deletionStartRow != 'undefined' && shift > 0) {
-				for (let y = deletionStartRow - 1; y >= 0; y--) {
+				// for (let r = 0; r < shift; r++) {
+				for (let y = deletionStartRow - shift; y < deletionStartRow; y++) {
 					for (let x = 0; x < SETTINGS.GB_FIELD_WIDTH; x++) {
-						this.game.Field[y + shift][x].color = this.game.Field[y][x].color
-						this.game.Field[y][x].color = COLORS.TRANSPARENT
+						if (this.game.Field[y - 1][x].color != COLORS.TRANSPARENT) {
+							console.log()
+							this.game.Field[y][x].color = this.game.Field[y - 1][x].color
+						}
+						this.game.Field[y - 1][x].color = COLORS.TRANSPARENT
 					}
 				}
+				// }
 			}
 			// initialize new playable tetromino
 			this.game.currentTetromino = new Tetromino(this.game)
@@ -287,15 +292,15 @@ const COLORS = {
 }
 // The array with all the tetrominos shapes correlated with their own colors
 const TETROMINOS = [
-	{
-		shape: [
-			[1, 0],
-			[0, 1],
-			[1, 1],
-			[2, 1],
-		],
-		color: COLORS.RED,
-	},
+	// {
+	// 	shape: [
+	// 		[1, 0],
+	// 		[0, 1],
+	// 		[1, 1],
+	// 		[2, 1],
+	// 	],
+	// 	color: COLORS.RED,
+	// },
 	{
 		shape: [
 			[0, 0],
@@ -305,51 +310,51 @@ const TETROMINOS = [
 		],
 		color: COLORS.AMBER,
 	},
-	{
-		shape: [
-			[0, 0],
-			[0, 1],
-			[1, 1],
-			[2, 1],
-		],
-		color: COLORS.LIME,
-	},
-	{
-		shape: [
-			[0, 1],
-			[0, 0],
-			[1, 0],
-			[2, 0],
-		],
-		color: COLORS.CYAN,
-	},
-	{
-		shape: [
-			[0, 0],
-			[1, 0],
-			[2, 0],
-			[3, 0],
-		],
-		color: COLORS.SKY,
-	},
-	{
-		shape: [
-			[0, 0],
-			[0, 1],
-			[1, 1],
-			[2, 1],
-		],
-		color: COLORS.PURPLE,
-	},
-	{
-		shape: [
-			[1, 0],
-			[2, 0],
-			[0, 1],
-			[1, 1],
-		],
-		color: COLORS.PINK,
-	},
+	// {
+	// 	shape: [
+	// 		[0, 0],
+	// 		[0, 1],
+	// 		[1, 1],
+	// 		[2, 1],
+	// 	],
+	// 	color: COLORS.LIME,
+	// },
+	// {
+	// 	shape: [
+	// 		[0, 1],
+	// 		[0, 0],
+	// 		[1, 0],
+	// 		[2, 0],
+	// 	],
+	// 	color: COLORS.CYAN,
+	// },
+	// {
+	// 	shape: [
+	// 		[0, 0],
+	// 		[1, 0],
+	// 		[2, 0],
+	// 		[3, 0],
+	// 	],
+	// 	color: COLORS.SKY,
+	// },
+	// {
+	// 	shape: [
+	// 		[0, 0],
+	// 		[0, 1],
+	// 		[1, 1],
+	// 		[2, 1],
+	// 	],
+	// 	color: COLORS.PURPLE,
+	// },
+	// {
+	// 	shape: [
+	// 		[1, 0],
+	// 		[2, 0],
+	// 		[0, 1],
+	// 		[1, 1],
+	// 	],
+	// 	color: COLORS.PINK,
+	// },
 ]
 
 // The dict containing directions of an active tetromino
@@ -442,7 +447,7 @@ function HandleKeyPress(keyInstance) {
 				break
 		}
 		game.currentTetromino.direction = DIRECTIONS.IDLE
-		console.log(game.currentTetromino.currentCoordinates)
+		//console.log(game.currentTetromino.currentCoordinates)
 	}
 }
 
