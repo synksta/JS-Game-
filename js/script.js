@@ -56,6 +56,11 @@ class Game {
 
 			//let testTetromino1 = new Tetromino(this, 0, 0)
 			//let testTetromino2 = new Tetromino(this, 5, 5)
+			setInterval(() => {
+				if (typeof this.currentTetromino != 'undefined') {
+					this.currentTetromino.MoveDown()
+				}
+			}, SETTINGS.SPEED)
 		}
 	}
 
@@ -188,22 +193,27 @@ class Tetromino {
 	}
 
 	MoveRight() {
+		this.direction = DIRECTIONS.RIGHT
 		this.currentCoordinates = new Coordinates(
 			this.currentCoordinates.x + 1,
 			this.currentCoordinates.y
 		)
+		this.direction = DIRECTIONS.IDLE
 		// console.log(this.currentCoordinates)
 	}
 
 	MoveLeft() {
+		this.direction = DIRECTIONS.LEFT
 		this.currentCoordinates = new Coordinates(
 			this.currentCoordinates.x - 1,
 			this.currentCoordinates.y
 		)
+		this.direction = DIRECTIONS.IDLE
 		// console.log(this.currentCoordinates)
 	}
 
 	MoveDown() {
+		this.direction = DIRECTIONS.DOWN
 		if (VerticalCollisionCheck()) {
 			this.currentCoordinates = new Coordinates(
 				this.currentCoordinates.x,
@@ -230,25 +240,25 @@ class Tetromino {
 			}
 			// and shift every other row
 			if (typeof deletionStartRow != 'undefined' && shift > 0) {
-				// for (let r = 0; r < shift; r++) {
-				for (let y = deletionStartRow - shift; y < deletionStartRow; y++) {
+				for (let y = deletionStartRow - shift; y >= 0; y--) {
 					for (let x = 0; x < SETTINGS.GB_FIELD_WIDTH; x++) {
-						if (this.game.Field[y - 1][x].color != COLORS.TRANSPARENT) {
-							console.log()
-							this.game.Field[y][x].color = this.game.Field[y - 1][x].color
-						}
-						this.game.Field[y - 1][x].color = COLORS.TRANSPARENT
+						this.game.Field[y + shift][x].color = this.game.Field[y][x].color
+						this.game.Field[y][x].color = COLORS.TRANSPARENT
 					}
 				}
-				// }
+				score += shift * SETTINGS.SCORE_MUL
+				scoreScreen.innerHTML = score
+				if (score % 10 == 0) SETTINGS.SPEED *= SETTINGS.SPEED_MUL
 			}
+
 			// initialize new playable tetromino
 			this.game.currentTetromino = new Tetromino(this.game)
 		}
-		// console.log(this.currentCoordinates)
+		this.direction = DIRECTIONS.IDLE
 	}
 
 	Rotate() {
+		game.currentTetromino.direction = DIRECTIONS.IDLE
 		let rotatedShape = new Array()
 		let shapeRightX = [...this.shape].sort((a, b) => b[1] - a[1])[0][1]
 		for (let i = 0; i < this.shape.length; i++) {
@@ -272,6 +282,7 @@ class Tetromino {
 		}
 
 		this.Draw()
+		game.currentTetromino.direction = DIRECTIONS.IDLE
 		// this.currentCoordinates = new Coordinates(
 		// 	this.currentCoordinates.x,
 		// 	this.currentCoordinates.y - 1
@@ -292,15 +303,15 @@ const COLORS = {
 }
 // The array with all the tetrominos shapes correlated with their own colors
 const TETROMINOS = [
-	// {
-	// 	shape: [
-	// 		[1, 0],
-	// 		[0, 1],
-	// 		[1, 1],
-	// 		[2, 1],
-	// 	],
-	// 	color: COLORS.RED,
-	// },
+	{
+		shape: [
+			[1, 0],
+			[0, 1],
+			[1, 1],
+			[2, 1],
+		],
+		color: COLORS.RED,
+	},
 	{
 		shape: [
 			[0, 0],
@@ -310,51 +321,51 @@ const TETROMINOS = [
 		],
 		color: COLORS.AMBER,
 	},
-	// {
-	// 	shape: [
-	// 		[0, 0],
-	// 		[0, 1],
-	// 		[1, 1],
-	// 		[2, 1],
-	// 	],
-	// 	color: COLORS.LIME,
-	// },
-	// {
-	// 	shape: [
-	// 		[0, 1],
-	// 		[0, 0],
-	// 		[1, 0],
-	// 		[2, 0],
-	// 	],
-	// 	color: COLORS.CYAN,
-	// },
-	// {
-	// 	shape: [
-	// 		[0, 0],
-	// 		[1, 0],
-	// 		[2, 0],
-	// 		[3, 0],
-	// 	],
-	// 	color: COLORS.SKY,
-	// },
-	// {
-	// 	shape: [
-	// 		[0, 0],
-	// 		[0, 1],
-	// 		[1, 1],
-	// 		[2, 1],
-	// 	],
-	// 	color: COLORS.PURPLE,
-	// },
-	// {
-	// 	shape: [
-	// 		[1, 0],
-	// 		[2, 0],
-	// 		[0, 1],
-	// 		[1, 1],
-	// 	],
-	// 	color: COLORS.PINK,
-	// },
+	{
+		shape: [
+			[0, 0],
+			[0, 1],
+			[1, 1],
+			[2, 1],
+		],
+		color: COLORS.LIME,
+	},
+	{
+		shape: [
+			[0, 1],
+			[0, 0],
+			[1, 0],
+			[2, 0],
+		],
+		color: COLORS.CYAN,
+	},
+	{
+		shape: [
+			[0, 0],
+			[1, 0],
+			[2, 0],
+			[3, 0],
+		],
+		color: COLORS.SKY,
+	},
+	{
+		shape: [
+			[0, 2],
+			[0, 1],
+			[1, 1],
+			[2, 1],
+		],
+		color: COLORS.PURPLE,
+	},
+	{
+		shape: [
+			[1, 0],
+			[2, 0],
+			[0, 1],
+			[1, 1],
+		],
+		color: COLORS.PINK,
+	},
 ]
 
 // The dict containing directions of an active tetromino
@@ -379,6 +390,9 @@ const SETTINGS = {
 	// Rules
 	START_CELL_INDEX_X: 0,
 	START_CELL_INDEX_Y: 0,
+	SCORE_MUL: 1,
+	SPEED: 700,
+	SPEED_MUL: 0.95,
 	// Control keys
 	CONTROLS_LEFT: 'ArrowLeft',
 	CONTROLS_RIGHT: 'ArrowRight',
@@ -390,12 +404,18 @@ let gameBoardArray
 
 let canvas
 let context
+let scoreScreen
+let score
 let game
 // let currentTetromino
 
 function init() {
 	canvas = document.getElementById('gameCanvas')
 	context = canvas.getContext('2d')
+	scoreScreen = document.getElementById('scoreScreen')
+
+	score = 0
+	scoreScreen.innerHTML = score
 
 	canvas.width = Math.floor(
 		SETTINGS.C_WIDTH -
@@ -430,23 +450,22 @@ function HandleKeyPress(keyInstance) {
 			case SETTINGS.CONTROLS_LEFT:
 				game.currentTetromino.direction = DIRECTIONS.LEFT
 				if (HorizontalCollisionCheck()) game.currentTetromino.MoveLeft()
-
 				break
+
 			case SETTINGS.CONTROLS_RIGHT:
 				game.currentTetromino.direction = DIRECTIONS.RIGHT
 				if (HorizontalCollisionCheck()) game.currentTetromino.MoveRight()
-
 				break
+
 			case SETTINGS.CONTROLS_DOWN:
-				game.currentTetromino.direction = DIRECTIONS.DOWN
 				game.currentTetromino.MoveDown()
-
 				break
+
 			case SETTINGS.CONTROLS_ROTATE:
 				game.currentTetromino.Rotate()
 				break
 		}
-		game.currentTetromino.direction = DIRECTIONS.IDLE
+
 		//console.log(game.currentTetromino.currentCoordinates)
 	}
 }
